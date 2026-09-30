@@ -1,398 +1,239 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>🎮 BEULAH'S WEIRD ARCADE 🎮</title> <style> *{box-sizing:border-box}
-body{
-margin:0;
-padding:18px 12px 60px;
-font-family:"Comic Sans MS",cursive,sans-serif;
-background:linear-gradient(135deg,#ff00aa,#6200ff,#00d9ff);
-color:#111;
-animation:rainbow 12s infinite alternate;
-}
-
-@keyframes rainbow{
-from{filter:hue-rotate(0deg)}
-to{filter:hue-rotate(360deg)}
-}
-
-.container{
-max-width:1000px;
-margin:auto;
-}
-
-.panel{
-background:rgba(255,255,255,.96);
-border:6px dashed #111;
-border-radius:25px;
-padding:25px;
-margin-bottom:25px;
-box-shadow:10px 10px 0 #111;
-}
-
-header{
-text-align:center;
-}
-
-h1{
-font-size:clamp(40px,9vw,85px);
-line-height:.9;
-margin:10px 0 20px;
-color:#ff1493;
-text-shadow:5px 5px #ffe600,9px 9px #111;
-animation:wobble .7s infinite alternate;
-}
-
-@keyframes wobble{
-from{transform:rotate(-2deg)}
-to{transform:rotate(2deg)}
-}
-
-h2{
-font-size:32px;
-color:#6200ff;
-}
-
-p{
-font-size:18px;
-font-weight:bold;
-}
-
-button{
-font-family:inherit;
-font-weight:bold;
-font-size:18px;
-padding:12px 18px;
-border:4px solid #111;
-border-radius:12px;
-background:#00ff66;
-cursor:pointer;
-box-shadow:5px 5px #111;
-margin:6px;
-}
-
-button:active{
-transform:translate(5px,5px);
-box-shadow:none;
-}
-
-.warning{
-background:#ffe600;
-border:4px solid #111;
-border-radius:12px;
-padding:12px;
-font-size:20px;
-font-weight:bold;
-}
-
-.stats{
-display:flex;
-justify-content:center;
-gap:15px;
-flex-wrap:wrap;
-}
-
-.stat{
-background:#111;
-color:white;
-border-radius:15px;
-padding:12px 20px;
-font-size:20px;
-font-weight:bold;
-}
-
-#runawayArea{
-position:relative;
-height:120px;
-overflow:hidden;
-border:3px solid #111;
-border-radius:15px;
-background:#eee;
-}
-
-#runaway{
-position:absolute;
-left:50%;
-top:30px;
-transform:translateX(-50%);
-background:#ff4444;
-transition:left .12s,top .12s;
-}
-
-#denialMessage,
-#gameMessage,
-#catchMessage,
-#slotResult,
-#tankMessage{
-text-align:center;
-font-size:20px;
-font-weight:bold;
-min-height:35px;
-margin-top:15px;
-}
-
-.meter{
-height:30px;
-border:4px solid #111;
-border-radius:15px;
-overflow:hidden;
-background:#ddd;
-}
-
-#meterFill{
-height:100%;
-width:97%;
-background:linear-gradient(90deg,#00ff66,#ffe600,#ff2222);
-transition:width .4s;
-}
-
-#catchArea{
-position:relative;
-height:300px;
-background:#15152b;
-border:5px solid #111;
-border-radius:18px;
-overflow:hidden;
-}
-
-#target{
-position:absolute;
-font-size:45px;
-border:0;
-background:transparent;
-box-shadow:none;
-padding:0;
-margin:0;
-}
-
-.score{
-font-size:24px;
-color:#ff1493;
-}
-
-.connect-wrap{
-overflow-x:auto;
-}
-
-#board{
-display:grid;
-grid-template-columns:repeat(8,46px);
-gap:5px;
-width:max-content;
-background:#1255b5;
-border:6px solid #111;
-border-radius:15px;
-padding:8px;
-margin:15px auto;
-}
-
-.cell{
-width:40px;
-height:40px;
-border-radius:50%;
-border:3px solid #111;
-background:#eee;
-cursor:default;
-padding:0;
-margin:0;
-box-shadow:none;
-}
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎮 Beulah's Weird Arcade 🎮</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:18px 12px 60px;font-family:"Comic Sans MS",cursive,sans-serif;background:linear-gradient(135deg,#ff00aa,#6200ff,#00d9ff);color:#111}
+.container{max-width:1000px;margin:auto}
+.panel{background:rgba(255,255,255,.96);border:6px dashed #111;border-radius:25px;padding:25px;margin-bottom:25px;box-shadow:10px 10px 0 #111}
+header{text-align:center}
+h1{font-size:clamp(40px,9vw,85px);line-height:.9;margin:10px 0 20px;color:#ff1493;text-shadow:5px 5px #ffe600,9px 9px #111}
+h2{font-size:32px;color:#6200ff}
+p{font-size:18px;font-weight:bold}
+button{font-family:inherit;font-weight:bold;font-size:18px;padding:12px 18px;border:4px solid #111;border-radius:12px;background:#00ff66;cursor:pointer;box-shadow:5px 5px #111;margin:6px}
+button:active{transform:translate(5px,5px);box-shadow:none}
+.warning{background:#ffe600;border:4px solid #111;border-radius:12px;padding:12px;font-size:20px;font-weight:bold}
+.stats{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
+.stat{background:#111;color:white;border-radius:15px;padding:12px 20px;font-size:20px;font-weight:bold}
+#runawayArea{position:relative;height:120px;overflow:hidden;border:3px solid #111;border-radius:15px;background:#eee}
+#runaway{position:absolute;left:50%;top:30px;transform:translateX(-50%);background:#ff4444;transition:left .12s,top .12s}
+#denialMessage,#gameMessage,#catchMessage,#slotResult,#tankMessage{text-align:center;font-size:20px;font-weight:bold;min-height:35px;margin-top:15px}
+.meter{height:30px;border:4px solid #111;border-radius:15px;overflow:hidden;background:#ddd}
+#meterFill{height:100%;width:97%;background:linear-gradient(90deg,#00ff66,#ffe600,#ff2222)}
+#catchArea{position:relative;height:300px;background:#15152b;border:5px solid #111;border-radius:18px;overflow:hidden}
+#target{position:absolute;font-size:45px;border:0;background:transparent;box-shadow:none;padding:0;margin:0}
+.score{font-size:24px;color:#ff1493}
+.connect-wrap{overflow-x:auto}
+#board{display:grid;grid-template-columns:repeat(8,46px);gap:5px;width:max-content;background:#1255b5;border:6px solid #111;border-radius:15px;padding:8px;margin:15px auto}
+.cell{width:40px;height:40px;border-radius:50%;border:3px solid #111;background:#eee;padding:0;margin:0;box-shadow:none}
 .cell.red{background:#ff3030}
 .cell.yellow{background:#ffe600}
-
-.columnButtons{
-display:grid;
-grid-template-columns:repeat(8,46px);
-gap:5px;
-width:max-content;
-margin:auto;
-}
-
-.columnButtons button{
-width:46px;
-height:42px;
-padding:0;
-margin:0;
-}
-
-.slot{
-display:flex;
-justify-content:center;
-gap:10px;
-flex-wrap:wrap;
-font-size:50px;
-margin:20px;
-}
-
-.slot span{
-background:#111;
-color:white;
-border-radius:12px;
-padding:8px 15px;
-min-width:75px;
-text-align:center;
-}
-
-#slotResult{
-font-size:24px;
-}
-
-.locked{
-opacity:.55;
-}
-
-#tankLocked{
-text-align:center;
-background:#ffdddd;
-border:4px solid #ff3333;
-padding:15px;
-border-radius:15px;
-font-weight:bold;
-}
-
-#tankGame{
-display:none;
-}
-
-#tankCanvas{
-display:block;
-width:100%;
-max-width:900px;
-height:auto;
-background:#87ceeb;
-border:5px solid #111;
-border-radius:15px;
-margin:auto;
-cursor:crosshair;
-}
-
-.tankInstructions{
-background:#eee;
-border:3px solid #111;
-border-radius:12px;
-padding:12px;
-}
-
-#tankScore{
-font-size:26px;
-color:#ff1493;
-font-weight:bold;
-text-align:center;
-}
-
-#achievement{
-display:none;
-text-align:center;
-background:#fff7a8;
-border:6px double #111;
-border-radius:20px;
-padding:25px;
-}
-
-#certificate{
-display:none;
-text-align:center;
-background:#fff7a8;
-border:6px double #111;
-border-radius:20px;
-padding:25px;
-color:#6200ff;
-}
-
-.emoji{
-position:fixed;
-top:-60px;
-font-size:35px;
-pointer-events:none;
-animation:fall 6s linear infinite;
-z-index:-1;
-}
-
-@keyframes fall{
-to{transform:translateY(110vh) rotate(720deg)}
-}
-
-#courtVerdict{
-font-size:24px;
-font-weight:bold;
-text-align:center;
-min-height:45px;
-}
-
-@media(max-width:600px){
-.panel{padding:18px}
-button{font-size:16px}
-#catchArea{height:240px}
-}
+.columnButtons{display:grid;grid-template-columns:repeat(8,46px);gap:5px;width:max-content;margin:auto}
+.columnButtons button{width:46px;height:42px;padding:0;margin:0}
+.slot{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;font-size:50px;margin:20px}
+.slot span{background:#111;color:white;border-radius:12px;padding:8px 15px;min-width:75px;text-align:center}
+#tankLocked{text-align:center;background:#ffdddd;border:4px solid #ff3333;padding:15px;border-radius:15px;font-weight:bold}
+#tankGame{display:none}
+#tankCanvas{display:block;width:100%;max-width:900px;height:auto;background:#87ceeb;border:5px solid #111;border-radius:15px;margin:auto;cursor:crosshair}
+.tankInstructions{background:#eee;border:3px solid #111;border-radius:12px;padding:12px}
+#tankScore{font-size:26px;color:#ff1493;font-weight:bold;text-align:center}
+#achievement{display:none;text-align:center;background:#fff7a8;border:6px double #111;border-radius:20px;padding:25px}
+#certificate{display:none;text-align:center;background:#fff7a8;border:6px double #111;border-radius:20px;padding:25px;color:#6200ff}
+#courtVerdict{font-size:24px;font-weight:bold;text-align:center;min-height:45px}
+.emoji{position:fixed;top:-60px;font-size:35px;pointer-events:none;animation:fall 6s linear infinite;z-index:-1}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+@media(max-width:600px){.panel{padding:18px}button{font-size:16px}#catchArea{height:240px}}
 </style>
+</head>
 
-</head> <body> <div class="emoji" style="left:5%;animation-delay:0s">🦆</div> <div class="emoji" style="left:25%;animation-delay:2s">🍌</div> <div class="emoji" style="left:50%;animation-delay:1s">🧀</div> <div class="emoji" style="left:75%;animation-delay:3s">🦖</div> <div class="emoji" style="left:90%;animation-delay:4s">🐔</div> <div class="container"> <header class="panel"> <div style="font-size:55px">🎮🤪🎮</div> <h1>BEULAH'S<br>WEIRD ARCADE</h1> <div class="warning"> ⚠️ COMPLETELY UNNECESSARY ARCADE FACILITY ⚠️ </div> <p> Nobody knows why this exists. Nobody knows who approved it. Please continue anyway. </p> <div class="stats"> <div class="stat">🪙 Credits: <span id="credits">0</span></div> <div class="stat">⭐ Score: <span id="totalScore">0</span></div> </div> </header> <!-- RUNAWAY BUTTON --> <section class="panel"> <h2>🏃 THE ESCAPE BUTTON</h2> <p> Try clicking the button. It definitely won't run away. Probably. </p> <div id="runawayArea"> <button id="runaway">I AM NOT A DORK</button> </div> <div id="denialMessage"></div> </section> <!-- DORK METER --> <section class="panel"> <h2>📊 TOTALLY SCIENTIFIC METER</h2> <p> Current reading: <strong id="dorkPercent">97%</strong> </p> <div class="meter"> <div id="meterFill"></div> </div> </section> <!-- DUCK GAME --> <section class="panel"> <h2>🦆 CATCH THE DUCK</h2> <p> Click the duck 10 times. After that, something may or may not go horribly wrong. </p> <p class="score"> Ducks caught: <span id="catchScore">0</span> </p> <div id="catchArea"> <button id="target">🦆</button> </div> <div id="catchMessage"> The duck is suspiciously still. </div> <button id="startCatch"> START DUCK HUNT </button> <div id="achievement"> <div style="font-size:65px">🏆🦆🏆</div> <h2>DUCK STORM UNLOCKED!</h2> <p> You caught 10 ducks. Unfortunately, there are now <strong>INFINITE DUCKS.</strong> </p> <p> Keep clicking them if you dare. </p> <div> Ducks defeated: <strong id="stormScore">0</strong> </div> </div> </section> <!-- CONNECT --> <section class="panel"> <h2>🔴🟡 CONNECT 8×4</h2> <p> Get four in a row. You are 🔴. DorkBot 9000 is 🟡. </p> <p> 🤖 DorkBot has received a substantial intelligence upgrade. </p> <div class="connect-wrap"> <div class="columnButtons" id="columnButtons"></div> <div id="board"></div> </div> <div id="gameMessage"> Your turn. </div> <button id="newGame"> NEW GAME </button> </section> <!-- SLOT MACHINE --> <section class="panel"> <h2>🎰 MYSTERY SLOT MACHINE</h2> <p> There is exactly a <strong>10% jackpot chance</strong>. A jackpot awards <strong>10 credits</strong>. </p> <div class="slot"> <span id="slot1">❓</span> <span id="slot2">❓</span> <span id="slot3">❓</span> </div> <div style="text-align:center"> <button id="spin"> 🎰 PULL LEVER </button> </div> <div id="slotResult"></div> </section> <!-- TANK GAME --> <section class="panel"> <h2>🪖 HILL TANK</h2> <div id="tankLocked">
+<body>
+
+<div class="emoji" style="left:5%;animation-delay:0s">🦆</div>
+<div class="emoji" style="left:25%;animation-delay:2s">🍌</div>
+<div class="emoji" style="left:50%;animation-delay:1s">🧀</div>
+<div class="emoji" style="left:75%;animation-delay:3s">🦖</div>
+<div class="emoji" style="left:90%;animation-delay:4s">🐔</div>
+
+<div class="container">
+
+<header class="panel">
+<div style="font-size:55px">🎮🤪🎮</div>
+<h1>BEULAH'S<br>WEIRD ARCADE</h1>
+<div class="warning">⚠️ COMPLETELY UNNECESSARY ARCADE FACILITY ⚠️</div>
+<p>Nobody knows why this exists. Nobody knows who approved it. Please continue anyway.</p>
+
+<div class="stats">
+<div class="stat">🪙 Credits: <span id="credits">0</span></div>
+<div class="stat">⭐ Score: <span id="totalScore">0</span></div>
+</div>
+</header>
+
+<section class="panel">
+<h2>🏃 THE ESCAPE BUTTON</h2>
+<p>Try clicking the button. It definitely won't run away. Probably.</p>
+
+<div id="runawayArea">
+<button id="runaway">I AM NOT A DORK</button>
+</div>
+
+<div id="denialMessage"></div>
+</section>
+
+<section class="panel">
+<h2>📊 TOTALLY SCIENTIFIC METER</h2>
+<p>Current reading: <strong id="dorkPercent">97%</strong></p>
+<div class="meter"><div id="meterFill"></div></div>
+</section>
+
+<section class="panel">
+<h2>🦆 CATCH THE DUCK</h2>
+<p>Click the duck 10 times. After that, something may or may not go horribly wrong.</p>
+
+<p class="score">Ducks caught: <span id="catchScore">0</span></p>
+
+<div id="catchArea">
+<button id="target">🦆</button>
+</div>
+
+<div id="catchMessage">The duck is suspiciously still.</div>
+
+<button id="startCatch">START DUCK HUNT</button>
+
+<div id="achievement">
+<div style="font-size:65px">🏆🦆🏆</div>
+<h2>DUCK STORM UNLOCKED!</h2>
+<p>You caught 10 ducks. Unfortunately, there are now <strong>INFINITE DUCKS.</strong></p>
+<p>Keep clicking them if you dare.</p>
+<div>Ducks defeated: <strong id="stormScore">0</strong></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>🔴🟡 CONNECT 8×4</h2>
+<p>Get four in a row. You are 🔴. DorkBot 9000 is 🟡.</p>
+<p>🤖 DorkBot has received a substantial intelligence upgrade.</p>
+
+<div class="connect-wrap">
+<div class="columnButtons" id="columnButtons"></div>
+<div id="board"></div>
+</div>
+
+<div id="gameMessage">Your turn.</div>
+<button id="newGame">NEW GAME</button>
+</section>
+
+<section class="panel">
+<h2>🎰 MYSTERY SLOT MACHINE</h2>
+<p>There is exactly a <strong>10% jackpot chance</strong>. A jackpot awards <strong>10 credits</strong>.</p>
+
+<div class="slot">
+<span id="slot1">❓</span>
+<span id="slot2">❓</span>
+<span id="slot3">❓</span>
+</div>
+
+<div style="text-align:center">
+<button id="spin">🎰 PULL LEVER</button>
+</div>
+
+<div id="slotResult"></div>
+</section>
+
+<section class="panel">
+<h2>🪖 HILL TANK</h2>
+
+<div id="tankLocked">
 🔒 TANK GAME LOCKED<br><br>
 Win the slot machine jackpot to receive 10 credits and unlock this game.
+</div>
 
-</div> <div id="tankGame"> <p class="tankInstructions"> 🎮 <strong>Controls:</strong> Use <strong>← →</strong> to drive. Move your mouse to aim. Click to fire. <br> 🎯 Hit the tower marked <strong>SHOOT ME</strong> to score points. </p> <div id="tankScore"> Tank Score: 0 </div>
+<div id="tankGame">
+
+<p class="tankInstructions">
+🎮 <strong>Controls:</strong> Use <strong>← →</strong> to drive.
+Move your mouse to aim. Click to fire.
+<br>
+🎯 Hit the tower marked <strong>SHOOT ME</strong> to score points.
+</p>
+
+<div id="tankScore">Tank Score: 0</div>
+
 <canvas id="tankCanvas" width="900" height="450"></canvas>
 
-<div id="tankMessage"> Destroy the tower! </div> <button id="tankReset"> RESET TANK </button> </div> </section> <!-- DORK COURT --> <section class="panel"> <h2>⚖️ COMPLETELY UNOFFICIAL COURT</h2> <p> Beulah has been accused of being suspiciously silly. Choose a defence. </p> <div style="text-align:center"> <button class="defence"> I'M INNOCENT </button> <button class="defence"> THE DUCK DID IT </button> <button class="defence"> NO COMMENT </button> </div> <div id="courtVerdict"></div> </section> <!-- CERTIFICATE --> <section class="panel"> <div id="certificate"> <div style="font-size:60px">🏆</div> <h2>OFFICIAL ARCADE CERTIFICATE</h2> <p> This highly prestigious document confirms that </p> <h1 style="font-size:45px;text-shadow:none"> BEULAH </h1> <p> has completed activities of questionable importance. </p> <div style="font-size:50px"> 🎮 🦆 🪖 🎰 </div> <p> Certified by the International Department of Completely Made-Up Science. </p> </div> </section> </div> <script>
-/* =========================================
-GLOBAL SCORE / CREDITS
-========================================= */
+<div id="tankMessage">Destroy the tower!</div>
+
+<button id="tankReset">RESET TANK</button>
+</div>
+</section>
+
+<section class="panel">
+<h2>⚖️ COMPLETELY UNOFFICIAL COURT</h2>
+<p>Beulah has been accused of being suspiciously silly. Choose a defence.</p>
+
+<div style="text-align:center">
+<button class="defence">I'M INNOCENT</button>
+<button class="defence">THE DUCK DID IT</button>
+<button class="defence">NO COMMENT</button>
+</div>
+
+<div id="courtVerdict"></div>
+</section>
+
+<section class="panel">
+<div id="certificate">
+<div style="font-size:60px">🏆</div>
+<h2>OFFICIAL ARCADE CERTIFICATE</h2>
+<p>This highly prestigious document confirms that</p>
+<h1 style="font-size:45px;text-shadow:none">BEULAH</h1>
+<p>has completed activities of questionable importance.</p>
+<div style="font-size:50px">🎮 🦆 🪖 🎰</div>
+<p>Certified by the International Department of Completely Made-Up Science.</p>
+</div>
+</section>
+
+</div>
+
+<script>
+
+/* GLOBAL SCORE */
 
 let credits=0;
 let totalScore=0;
 let dorkLevel=97;
 
 function updateStats(){
-
 document.getElementById("credits").textContent=credits;
 document.getElementById("totalScore").textContent=totalScore;
 document.getElementById("dorkPercent").textContent=dorkLevel+"%";
 document.getElementById("meterFill").style.width=dorkLevel+"%";
-
 }
 
 function addScore(amount){
-
 totalScore+=amount;
-
-if(totalScore<0)totalScore=0;
-
 updateStats();
-
 }
 
 function increaseDork(amount=1){
-
 dorkLevel=Math.min(100,dorkLevel+amount);
-
 updateStats();
-
 }
 
-/* =========================================
-RUNAWAY BUTTON
-========================================= */
+
+/* ESCAPE BUTTON */
 
 const runaway=document.getElementById("runaway");
 const runawayArea=document.getElementById("runawayArea");
-const denialMessage=document.getElementById("denialMessage");
 
 function escapeButton(){
 
-const maxX=Math.max(
-0,
-runawayArea.clientWidth-runaway.offsetWidth
-);
+const maxX=Math.max(0,runawayArea.clientWidth-runaway.offsetWidth);
+const maxY=Math.max(0,runawayArea.clientHeight-runaway.offsetHeight);
 
-const maxY=Math.max(
-0,
-runawayArea.clientHeight-runaway.offsetHeight
-);
-
-runaway.style.left=
-Math.floor(Math.random()*maxX)+"px";
-
-runaway.style.top=
-Math.floor(Math.random()*maxY)+"px";
-
+runaway.style.left=Math.floor(Math.random()*maxX)+"px";
+runaway.style.top=Math.floor(Math.random()*maxY)+"px";
 runaway.style.transform="none";
 
 const messages=[
@@ -404,42 +245,26 @@ const messages=[
 "STOP CHASING THE BUTTON."
 ];
 
-denialMessage.textContent=
+document.getElementById("denialMessage").textContent=
 messages[Math.floor(Math.random()*messages.length)];
 
 increaseDork();
-
 addScore(1);
-
 }
 
-runaway.addEventListener(
-"mouseenter",
-escapeButton
-);
+runaway.addEventListener("mouseenter",escapeButton);
+runaway.addEventListener("click",escapeButton);
 
-runaway.addEventListener(
-"click",
-escapeButton
-);
-
-runaway.addEventListener(
-"touchstart",
-function(e){
+runaway.addEventListener("touchstart",function(e){
 e.preventDefault();
 escapeButton();
-}
-);
+});
 
-/* =========================================
-DUCK GAME
-========================================= */
+
+/* DUCK GAME */
 
 const target=document.getElementById("target");
 const catchArea=document.getElementById("catchArea");
-const catchScoreElement=document.getElementById("catchScore");
-const catchMessage=document.getElementById("catchMessage");
-const startCatch=document.getElementById("startCatch");
 
 let catchScore=0;
 let catchRunning=false;
@@ -450,18 +275,11 @@ function moveTarget(){
 
 if(!catchRunning)return;
 
-const maxX=
-Math.max(0,catchArea.clientWidth-60);
+const maxX=Math.max(0,catchArea.clientWidth-60);
+const maxY=Math.max(0,catchArea.clientHeight-60);
 
-const maxY=
-Math.max(0,catchArea.clientHeight-60);
-
-target.style.left=
-Math.floor(Math.random()*maxX)+"px";
-
-target.style.top=
-Math.floor(Math.random()*maxY)+"px";
-
+target.style.left=Math.floor(Math.random()*maxX)+"px";
+target.style.top=Math.floor(Math.random()*maxY)+"px";
 }
 
 function startCatchGame(){
@@ -472,25 +290,17 @@ duckStorm=false;
 stormScore=0;
 
 target.style.display="block";
-
 document.getElementById("achievement").style.display="none";
 
-catchScoreElement.textContent="0";
-
-catchMessage.textContent="CATCH THE DUCK!";
+document.getElementById("catchScore").textContent="0";
+document.getElementById("catchMessage").textContent="CATCH THE DUCK!";
 
 moveTarget();
-
 }
 
-startCatch.addEventListener(
-"click",
-startCatchGame
-);
+document.getElementById("startCatch").addEventListener("click",startCatchGame);
 
-target.addEventListener(
-"click",
-function(){
+target.addEventListener("click",function(){
 
 if(!catchRunning)return;
 
@@ -498,11 +308,9 @@ if(!duckStorm){
 
 catchScore++;
 
-catchScoreElement.textContent=
-catchScore;
+document.getElementById("catchScore").textContent=catchScore;
 
 addScore(5);
-
 increaseDork(1);
 
 if(catchScore>=10){
@@ -510,18 +318,10 @@ if(catchScore>=10){
 duckStorm=true;
 stormScore=0;
 
-document.getElementById(
-"achievement"
-).style.display="block";
+document.getElementById("achievement").style.display="block";
+document.getElementById("catchMessage").textContent="🚨 DUCK STORM ACTIVATED!";
 
-catchMessage.textContent=
-"🚨 DUCK STORM ACTIVATED!";
-
-target.textContent="🦆";
-
-}
-
-else{
+}else{
 
 const messages=[
 "🦆 GOT IT!",
@@ -531,26 +331,17 @@ const messages=[
 "Excellent duck catching."
 ];
 
-catchMessage.textContent=
-messages[
-Math.floor(Math.random()*messages.length)
-];
-
+document.getElementById("catchMessage").textContent=
+messages[Math.floor(Math.random()*messages.length)];
 }
 
-}
-
-else{
+}else{
 
 stormScore++;
 
-document.getElementById(
-"stormScore"
-).textContent=
-stormScore;
+document.getElementById("stormScore").textContent=stormScore;
 
 addScore(10);
-
 increaseDork(1);
 
 const stormMessages=[
@@ -561,22 +352,15 @@ const stormMessages=[
 "🚨 THIS IS GETTING OUT OF HAND!"
 ];
 
-catchMessage.textContent=
-stormMessages[
-Math.floor(Math.random()*stormMessages.length)
-];
-
+document.getElementById("catchMessage").textContent=
+stormMessages[Math.floor(Math.random()*stormMessages.length)];
 }
 
 moveTarget();
+});
 
-}
-);
 
-/* =========================================
-CONNECT 8x4
-Stronger minimax bot
-========================================= */
+/* CONNECT 4 */
 
 const ROWS=4;
 const COLS=8;
@@ -586,27 +370,15 @@ let board=[];
 let gameOver=false;
 let botThinking=false;
 
-const boardElement=
-document.getElementById("board");
-
-const columnButtons=
-document.getElementById("columnButtons");
-
-const gameMessage=
-document.getElementById("gameMessage");
+const boardElement=document.getElementById("board");
+const columnButtons=document.getElementById("columnButtons");
+const gameMessage=document.getElementById("gameMessage");
 
 function createBoard(){
-
 board=[];
-
 for(let r=0;r<ROWS;r++){
-
-board.push(
-new Array(COLS).fill(0)
-);
-
+board.push(new Array(COLS).fill(0));
 }
-
 }
 
 function renderBoard(){
@@ -614,28 +386,19 @@ function renderBoard(){
 boardElement.innerHTML="";
 
 for(let r=0;r<ROWS;r++){
-
 for(let c=0;c<COLS;c++){
 
-const cell=
-document.createElement("button");
+const cell=document.createElement("button");
 
 cell.type="button";
-
 cell.className="cell";
 
-if(board[r][c]===1)
-cell.classList.add("red");
-
-if(board[r][c]===2)
-cell.classList.add("yellow");
+if(board[r][c]===1)cell.classList.add("red");
+if(board[r][c]===2)cell.classList.add("yellow");
 
 boardElement.appendChild(cell);
-
 }
-
 }
-
 }
 
 function renderColumns(){
@@ -644,62 +407,39 @@ columnButtons.innerHTML="";
 
 for(let c=0;c<COLS;c++){
 
-const button=
-document.createElement("button");
+const button=document.createElement("button");
 
 button.type="button";
 button.textContent="▼";
 
-button.dataset.col=c;
-
-button.addEventListener(
-"click",
-function(){
-
-playerMove(
-Number(this.dataset.col)
-);
-
+button.addEventListener("click",function(){
+playerMove(c);
 });
 
 columnButtons.appendChild(button);
-
 }
-
 }
 
 function availableRow(state,col){
 
 for(let r=ROWS-1;r>=0;r--){
-
-if(state[r][col]===0)
-return r;
-
+if(state[r][col]===0)return r;
 }
 
 return -1;
-
 }
 
 function simulateMove(state,col,player){
 
-const row=availableRow(
-state,
-col
-);
+const row=availableRow(state,col);
 
-if(row===-1)
-return null;
+if(row===-1)return null;
 
-const copy=
-state.map(
-r=>r.slice()
-);
+const copy=state.map(r=>r.slice());
 
 copy[row][col]=player;
 
 return copy;
-
 }
 
 function winner(state,player){
@@ -712,11 +452,9 @@ const dirs=[
 ];
 
 for(let r=0;r<ROWS;r++){
-
 for(let c=0;c<COLS;c++){
 
-if(state[r][c]!==player)
-continue;
+if(state[r][c]!==player)continue;
 
 for(const d of dirs){
 
@@ -724,146 +462,83 @@ let count=1;
 
 for(let i=1;i<WIN;i++){
 
-const nr=
-r+d[0]*i;
-
-const nc=
-c+d[1]*i;
+const nr=r+d[0]*i;
+const nc=c+d[1]*i;
 
 if(
-nr>=0 &&
-nr<ROWS &&
-nc>=0 &&
-nc<COLS &&
+nr>=0&&nr<ROWS&&
+nc>=0&&nc<COLS&&
 state[nr][nc]===player
 ){
-
 count++;
-
-}else{
-
-break;
-
+}else break;
 }
 
+if(count>=WIN)return true;
 }
-
-if(count>=WIN)
-return true;
-
 }
-
-}
-
 }
 
 return false;
-
 }
 
 function full(state){
-
-return state.every(
-row=>row.every(
-cell=>cell!==0
-)
-);
-
+return state.every(row=>row.every(cell=>cell!==0));
 }
-
-/* Score board positions */
 
 function evaluate(state){
 
-if(winner(state,2))
-return 100000;
-
-if(winner(state,1))
-return -100000;
+if(winner(state,2))return 100000;
+if(winner(state,1))return -100000;
 
 let score=0;
 
+const center=[3,4,2,5,1,6,0,7];
+
 for(let r=0;r<ROWS;r++){
-
 for(let c=0;c<COLS;c++){
 
-if(state[r][c]===2)
-score+=3;
+if(state[r][c]===2)score+=3;
+if(state[r][c]===1)score-=3;
 
-if(state[r][c]===1)
-score-=3;
-
+if(state[r][c]===2){
+score+=8-center.indexOf(c);
 }
 
+if(state[r][c]===1){
+score-=8-center.indexOf(c);
 }
-
-/* Prefer central columns */
-
-const centerPreference=[
-3,4,2,5,1,6,0,7
-];
-
-for(let c=0;c<COLS;c++){
-
-if(state[0][c]===2)
-score+=
-(8-centerPreference.indexOf(c));
-
+}
 }
 
 return score;
-
 }
 
-/*
-Minimax with alpha-beta pruning.
-Because the board is only 8x4,
-the bot can look several moves ahead.
-*/
 
-function minimax(
-state,
-depth,
-maximizing,
-alpha,
-beta
-){
+/* Strong minimax search */
 
-if(winner(state,2))
-return 100000+depth;
+function minimax(state,depth,maximizing,alpha,beta){
 
-if(winner(state,1))
-return -100000-depth;
+if(winner(state,2))return 100000+depth;
+if(winner(state,1))return -100000-depth;
 
-if(depth===0||full(state))
+if(depth===0||full(state)){
 return evaluate(state);
-
-const moves=[];
-
-const preference=[
-3,4,2,5,1,6,0,7
-];
-
-for(const c of preference){
-
-if(availableRow(state,c)!==-1)
-moves.push(c);
-
 }
+
+const preference=[3,4,2,5,1,6,0,7];
 
 if(maximizing){
 
 let best=-Infinity;
 
-for(const c of moves){
+for(const c of preference){
 
-const next=
-simulateMove(
-state,c,2
-);
+if(availableRow(state,c)===-1)continue;
 
-const value=
-minimax(
+const next=simulateMove(state,c,2);
+
+const value=minimax(
 next,
 depth-1,
 false,
@@ -872,12 +547,9 @@ beta
 );
 
 best=Math.max(best,value);
-
 alpha=Math.max(alpha,best);
 
-if(beta<=alpha)
-break;
-
+if(beta<=alpha)break;
 }
 
 return best;
@@ -886,15 +558,13 @@ return best;
 
 let best=Infinity;
 
-for(const c of moves){
+for(const c of preference){
 
-const next=
-simulateMove(
-state,c,1
-);
+if(availableRow(state,c)===-1)continue;
 
-const value=
-minimax(
+const next=simulateMove(state,c,1);
+
+const value=minimax(
 next,
 depth-1,
 true,
@@ -903,75 +573,57 @@ beta
 );
 
 best=Math.min(best,value);
-
 beta=Math.min(beta,best);
 
-if(beta<=alpha)
-break;
-
+if(beta<=alpha)break;
 }
 
 return best;
-
 }
-
 }
 
 function chooseBotMove(){
 
-const preference=[
-3,4,2,5,1,6,0,7
-];
+const preference=[3,4,2,5,1,6,0,7];
+
+/* Win immediately */
+
+for(const c of preference){
+
+if(availableRow(board,c)!==-1){
+
+const test=simulateMove(board,c,2);
+
+if(winner(test,2))return c;
+}
+}
+
+/* Block immediately */
+
+for(const c of preference){
+
+if(availableRow(board,c)!==-1){
+
+const test=simulateMove(board,c,1);
+
+if(winner(test,1))return c;
+}
+}
+
+/* Search several moves ahead */
 
 let bestScore=-Infinity;
 let bestMoves=[];
 
-/* Always take immediate win */
-
 for(const c of preference){
 
-if(availableRow(board,c)!==-1){
+if(availableRow(board,c)===-1)continue;
 
-const test=
-simulateMove(board,c,2);
+const next=simulateMove(board,c,2);
 
-if(winner(test,2))
-return c;
-
-}
-
-}
-
-/* Always block immediate player win */
-
-for(const c of preference){
-
-if(availableRow(board,c)!==-1){
-
-const test=
-simulateMove(board,c,1);
-
-if(winner(test,1))
-return c;
-
-}
-
-}
-
-/* Deep search */
-
-for(const c of preference){
-
-if(availableRow(board,c)===-1)
-continue;
-
-const next=
-simulateMove(board,c,2);
-
-const score=
-minimax(
+const score=minimax(
 next,
-7,
+8,
 false,
 -Infinity,
 Infinity
@@ -985,48 +637,33 @@ bestMoves=[c];
 }else if(score===bestScore){
 
 bestMoves.push(c);
-
+}
 }
 
-}
-
-if(bestMoves.length)
-return bestMoves[
-Math.floor(
-Math.random()*bestMoves.length
-)
-];
-
-return 3;
-
+return bestMoves.length
+?bestMoves[Math.floor(Math.random()*bestMoves.length)]
+:3;
 }
 
 function makePlayerMove(col){
 
-const row=
-availableRow(board,col);
+const row=availableRow(board,col);
 
-if(row===-1)
-return false;
+if(row===-1)return false;
 
 board[row][col]=1;
 
 return true;
-
 }
 
 function playerMove(col){
 
-if(gameOver||botThinking)
-return;
+if(gameOver||botThinking)return;
 
 if(!makePlayerMove(col)){
 
-gameMessage.textContent=
-"That column is full!";
-
+gameMessage.textContent="That column is full!";
 return;
-
 }
 
 renderBoard();
@@ -1039,48 +676,33 @@ gameMessage.textContent=
 "🚨 YOU WON! DorkBot has experienced a system error.";
 
 addScore(100);
-
 increaseDork(3);
 
-document.getElementById(
-"certificate"
-).style.display="block";
+document.getElementById("certificate").style.display="block";
 
 return;
-
 }
 
 if(full(board)){
 
 gameOver=true;
-
-gameMessage.textContent=
-"🤝 DRAW! Nobody wins.";
+gameMessage.textContent="🤝 DRAW! Nobody wins.";
 
 return;
-
 }
 
 botThinking=true;
 
 gameMessage.textContent=
-"🤖 DorkBot is thinking very hard...";
+"🤖 DorkBot is calculating your downfall...";
 
-setTimeout(
+setTimeout(function(){
 
-function(){
+const col=chooseBotMove();
 
-const col=
-chooseBotMove();
+const row=availableRow(board,col);
 
-const row=
-availableRow(
-board,
-col
-);
-
-if(row!==-1)
-board[row][col]=2;
+if(row!==-1)board[row][col]=2;
 
 renderBoard();
 
@@ -1094,37 +716,24 @@ gameMessage.textContent=
 "🤖 DorkBot wins. The machine remains undefeated.";
 
 addScore(25);
-
 increaseDork(2);
 
-document.getElementById(
-"certificate"
-).style.display="block";
+document.getElementById("certificate").style.display="block";
 
 return;
-
 }
 
 if(full(board)){
 
 gameOver=true;
-
-gameMessage.textContent=
-"🤝 DRAW! DorkBot demands another game.";
+gameMessage.textContent="🤝 DRAW! DorkBot demands another game.";
 
 return;
-
 }
 
-gameMessage.textContent=
-"Your turn. Choose a column.";
+gameMessage.textContent="Your turn. Choose a column.";
 
-},
-
-500
-
-);
-
+},500);
 }
 
 function resetGame(){
@@ -1137,85 +746,38 @@ botThinking=false;
 renderBoard();
 renderColumns();
 
-gameMessage.textContent=
-"Your turn. Choose a column.";
-
+gameMessage.textContent="Your turn. Choose a column.";
 }
 
-document.getElementById(
-"newGame"
-).addEventListener(
-"click",
-resetGame
-);
+document.getElementById("newGame").addEventListener("click",resetGame);
 
 resetGame();
 
-/* =========================================
-SLOT MACHINE
-========================================= */
 
-const symbols=[
-"🍒",
-"⭐",
-"🍋",
-"💎",
-"🍀",
-"🎯",
-"🦆"
-];
+/* SLOT MACHINE */
 
-const slot1=
-document.getElementById("slot1");
+const symbols=["🍒","⭐","🍋","💎","🍀","🎯","🦆"];
 
-const slot2=
-document.getElementById("slot2");
+document.getElementById("spin").addEventListener("click",function(){
 
-const slot3=
-document.getElementById("slot3");
+const spinButton=this;
 
-const slotResult=
-document.getElementById("slotResult");
+spinButton.disabled=true;
 
-const spin=
-document.getElementById("spin");
-
-spin.addEventListener(
-"click",
-function(){
-
-spin.disabled=true;
-
-slotResult.textContent=
-"🎰 SPINNING...";
+document.getElementById("slotResult").textContent="🎰 SPINNING...";
 
 let ticks=0;
 
-const animation=
-setInterval(
+const animation=setInterval(function(){
 
-function(){
+document.getElementById("slot1").textContent=
+symbols[Math.floor(Math.random()*symbols.length)];
 
-slot1.textContent=
-symbols[
-Math.floor(
-Math.random()*symbols.length
-)
-];
+document.getElementById("slot2").textContent=
+symbols[Math.floor(Math.random()*symbols.length)];
 
-slot2.textContent=
-symbols[
-Math.floor(
-Math.random()*symbols.length
-)
-];
-
-slot3.textContent=
-symbols[
-Math.floor(
-Math.random()*symbols.length
-)
-];
+document.getElementById("slot3").textContent=
+symbols[Math.floor(Math.random()*symbols.length)];
 
 ticks++;
 
@@ -1223,88 +785,57 @@ if(ticks>=12){
 
 clearInterval(animation);
 
-const jackpot=
-Math.random()<0.10;
+const jackpot=Math.random()<0.10;
 
 if(jackpot){
 
 const winSymbol=
-symbols[
-Math.floor(
-Math.random()*symbols.length
-)
-];
+symbols[Math.floor(Math.random()*symbols.length)];
 
-slot1.textContent=winSymbol;
-slot2.textContent=winSymbol;
-slot3.textContent=winSymbol;
+document.getElementById("slot1").textContent=winSymbol;
+document.getElementById("slot2").textContent=winSymbol;
+document.getElementById("slot3").textContent=winSymbol;
 
 credits+=10;
 
 addScore(50);
 
-slotResult.textContent=
+document.getElementById("slotResult").textContent=
 "🎉 JACKPOT! 3 IN A ROW! +10 CREDITS!";
 
 unlockTank();
 
 }else{
 
-slotResult.textContent=
-"😢 No jackpot this time. Exactly 10% means patience.";
+document.getElementById("slotResult").textContent=
+"😢 No jackpot this time. Try again!";
 
 }
 
-spin.disabled=false;
-
+spinButton.disabled=false;
 updateStats();
-
 }
 
-},
-
-80
-
-);
-
+},80);
 });
 
-/* =========================================
-TANK GAME
-========================================= */
 
-const tankCanvas=
-document.getElementById("tankCanvas");
+/* TANK GAME */
 
-const ctx=
-tankCanvas.getContext("2d");
-
-const tankGame=
-document.getElementById("tankGame");
-
-const tankLocked=
-document.getElementById("tankLocked");
-
-const tankMessage=
-document.getElementById("tankMessage");
-
-const tankScoreElement=
-document.getElementById("tankScore");
+const tankCanvas=document.getElementById("tankCanvas");
+const ctx=tankCanvas.getContext("2d");
 
 let tankUnlocked=false;
 
 let tank={
 x:100,
 y:330,
-vx:0,
 angle:0
 };
 
 let tankScore=0;
 
 let keys={};
-
-let explosions=[];
 
 let mouse={
 x:700,
@@ -1317,148 +848,100 @@ y:205,
 health:10
 };
 
+let shells=[];
+let explosions=[];
+
 function unlockTank(){
 
-if(tankUnlocked)
-return;
+if(tankUnlocked)return;
 
 tankUnlocked=true;
 
-tankLocked.style.display="none";
+document.getElementById("tankLocked").style.display="none";
+document.getElementById("tankGame").style.display="block";
 
-tankGame.style.display="block";
-
-tankMessage.textContent=
+document.getElementById("tankMessage").textContent=
 "🔓 TANK UNLOCKED! Destroy the tower!";
 
 drawTank();
-
 }
 
-document.addEventListener(
-"keydown",
-function(e){
+document.addEventListener("keydown",function(e){
 
 keys[e.key]=true;
 
-if([
-"ArrowLeft",
-"ArrowRight"
-].includes(e.key)){
-
+if(e.key==="ArrowLeft"||e.key==="ArrowRight"){
 e.preventDefault();
-
 }
+});
 
-}
-);
-
-document.addEventListener(
-"keyup",
-function(e){
-
+document.addEventListener("keyup",function(e){
 keys[e.key]=false;
+});
 
-}
-);
+tankCanvas.addEventListener("mousemove",function(e){
 
-tankCanvas.addEventListener(
-"mousemove",
-function(e){
-
-const rect=
-tankCanvas.getBoundingClientRect();
-
-const scaleX=
-tankCanvas.width/rect.width;
-
-const scaleY=
-tankCanvas.height/rect.height;
+const rect=tankCanvas.getBoundingClientRect();
 
 mouse.x=
-(e.clientX-rect.left)*scaleX;
+(e.clientX-rect.left)*
+tankCanvas.width/rect.width;
 
 mouse.y=
-(e.clientY-rect.top)*scaleY;
+(e.clientY-rect.top)*
+tankCanvas.height/rect.height;
+});
 
-}
-);
+tankCanvas.addEventListener("click",function(){
 
-tankCanvas.addEventListener(
-"click",
-function(){
+if(tankUnlocked)fireShell();
 
-if(!tankUnlocked)
-return;
-
-fireShell();
-
-}
-);
+});
 
 function hillY(x){
 
 return 350+
-Math.sin(x*.012)28+
-Math.sin(x.027)*12;
-
+Math.sin(x*.012)*28+
+Math.sin(x*.027)*12;
 }
 
 function fireShell(){
 
 const barrelX=
-tank.x+
-Math.cos(tank.angle)*45;
+tank.x+Math.cos(tank.angle)*45;
 
 const barrelY=
-tank.y+
-Math.sin(tank.angle)*45;
+tank.y+Math.sin(tank.angle)*45;
 
-const dx=
-tower.x-barrelX;
+const dx=tower.x-barrelX;
+const dy=tower.y-barrelY;
 
-const dy=
-tower.y-barrelY;
-
-const distance=
-Math.sqrt(dxdx+dydy);
+const distance=Math.sqrt(dx*dx+dy*dy);
 
 const speed=9;
-
-const vx=
-dx/distance*speed;
-
-const vy=
-dy/distance*speed;
 
 shells.push({
 x:barrelX,
 y:barrelY,
-vx:vx,
-vy:vy,
+vx:dx/distance*speed,
+vy:dy/distance*speed,
 life:0
 });
 
-tankMessage.textContent=
-"💥 FIRE!";
-
+document.getElementById("tankMessage").textContent="💥 FIRE!";
 }
-
-let shells=[];
 
 function updateTank(){
 
-if(!tankUnlocked)
+if(!tankUnlocked){
+requestAnimationFrame(updateTank);
 return;
+}
 
-if(keys["ArrowLeft"])
-tank.x-=3;
+if(keys["ArrowLeft"])tank.x-=3;
+if(keys["ArrowRight"])tank.x+=3;
 
-if(keys["ArrowRight"])
-tank.x+=3;
-
-tank.x=
-Math.max(
+tank.x=Math.max(
 40,
 Math.min(
 tankCanvas.width-200,
@@ -1466,16 +949,15 @@ tank.x
 )
 );
 
-tank.y=
-hillY(tank.x)-22;
+tank.y=hillY(tank.x)-22;
 
-tank.angle=
-Math.atan2(
+tank.angle=Math.atan2(
 mouse.y-tank.y,
 mouse.x-tank.x
 );
 
-/* Update shells */
+
+/* Shell physics */
 
 for(let i=shells.length-1;i>=0;i--){
 
@@ -1486,15 +968,10 @@ s.y+=s.vy;
 s.vy+=0.12;
 s.life++;
 
-const dx=
-s.x-tower.x;
+const dx=s.x-tower.x;
+const dy=s.y-tower.y;
 
-const dy=
-s.y-tower.y;
-
-if(
-Math.sqrt(dxdx+dydy)<35
-){
+if(Math.sqrt(dx*dx+dy*dy)<35){
 
 tower.health--;
 
@@ -1510,35 +987,21 @@ life:0
 
 shells.splice(i,1);
 
-tankMessage.textContent=
-"💥 DIRECT HIT! Tower health: "+
-tower.health;
+document.getElementById("tankMessage").textContent=
+"💥 DIRECT HIT! Tower health: "+tower.health;
 
 if(tower.health<=0){
 
 tankScore+=100;
-
 addScore(100);
 
-tankMessage.textContent=
+document.getElementById("tankMessage").textContent=
 "🏆 TOWER DESTROYED! +100 BONUS!";
 
 tower.health=10;
-
-setTimeout(
-function(){
-
-tankMessage.textContent=
-"🔄 The tower has respawned. Keep shooting!";
-
-},
-1500
-);
-
 }
 
 continue;
-
 }
 
 if(
@@ -1549,10 +1012,9 @@ s.life>200
 ){
 
 shells.splice(i,1);
-
+}
 }
 
-}
 
 /* Explosions */
 
@@ -1560,20 +1022,17 @@ for(let i=explosions.length-1;i>=0;i--){
 
 explosions[i].life++;
 
-if(explosions[i].life>25)
+if(explosions[i].life>25){
 explosions.splice(i,1);
-
+}
 }
 
-tankScoreElement.textContent=
+document.getElementById("tankScore").textContent=
 "Tank Score: "+tankScore;
 
 drawTank();
 
-requestAnimationFrame(
-updateTank
-);
-
+requestAnimationFrame(updateTank);
 }
 
 function drawTank(){
@@ -1584,6 +1043,7 @@ ctx.clearRect(
 tankCanvas.width,
 tankCanvas.height
 );
+
 
 /* Sky */
 
@@ -1596,21 +1056,23 @@ tankCanvas.width,
 tankCanvas.height
 );
 
+
 /* Clouds */
 
 ctx.fillStyle="rgba(255,255,255,.8)";
 
 ctx.beginPath();
-ctx.arc(130,70,25,0,Math.PI2);
-ctx.arc(160,70,35,0,Math.PI2);
+ctx.arc(130,70,25,0,Math.PI*2);
+ctx.arc(160,70,35,0,Math.PI*2);
 ctx.arc(195,75,25,0,Math.PI*2);
 ctx.fill();
 
 ctx.beginPath();
-ctx.arc(470,90,25,0,Math.PI2);
-ctx.arc(500,90,35,0,Math.PI2);
+ctx.arc(470,90,25,0,Math.PI*2);
+ctx.arc(500,90,35,0,Math.PI*2);
 ctx.arc(540,95,25,0,Math.PI*2);
 ctx.fill();
+
 
 /* Hills */
 
@@ -1626,16 +1088,13 @@ ctx.lineTo(
 x,
 hillY(x)
 );
-
 }
 
-ctx.lineTo(
-tankCanvas.width,
-450
-);
+ctx.lineTo(tankCanvas.width,450);
 
 ctx.closePath();
 ctx.fill();
+
 
 /* Tower */
 
@@ -1660,7 +1119,6 @@ tower.y+20,
 ctx.fillStyle="#ff2222";
 
 ctx.font="bold 25px Comic Sans MS";
-
 ctx.textAlign="center";
 
 ctx.fillText(
@@ -1669,7 +1127,7 @@ tower.x,
 tower.y-18
 );
 
-ctx.fillStyle="black";
+ctx.fillStyle="#111";
 
 ctx.font="bold 16px Arial";
 
@@ -1678,6 +1136,7 @@ ctx.fillText(
 tower.x,
 tower.y+180
 );
+
 
 /* Tank */
 
@@ -1719,6 +1178,7 @@ ctx.fillRect(
 
 ctx.restore();
 
+
 /* Shells */
 
 ctx.fillStyle="#111";
@@ -1736,15 +1196,14 @@ Math.PI*2
 );
 
 ctx.fill();
-
 }
+
 
 /* Explosions */
 
 for(const ex of explosions){
 
-const radius=
-ex.life*3;
+const radius=ex.life*3;
 
 ctx.fillStyle=
 "rgba(255,120,0,"+
@@ -1761,42 +1220,25 @@ Math.PI*2
 );
 
 ctx.fill();
-
+}
 }
 
-}
-
-document.getElementById(
-"tankReset"
-).addEventListener(
-"click",
-function(){
+document.getElementById("tankReset").addEventListener("click",function(){
 
 tankScore=0;
-
 tank.x=100;
-
 tower.health=10;
-
 shells=[];
-
 explosions=[];
 
-tankMessage.textContent=
+document.getElementById("tankMessage").textContent=
 "Destroy the tower!";
+});
 
-}
-);
+requestAnimationFrame(updateTank);
 
-/* Start tank animation */
 
-requestAnimationFrame(
-updateTank
-);
-
-/* =========================================
-COURT
-========================================= */
+/* COURT */
 
 const verdicts=[
 "⚖️ GUILTY OF BEING SUSPICIOUSLY SILLY.",
@@ -1806,42 +1248,28 @@ const verdicts=[
 "🧑‍⚖️ GUILTY OF EXCESSIVE WEIRDNESS."
 ];
 
-document.querySelectorAll(
-".defence"
-).forEach(
+document.querySelectorAll(".defence").forEach(function(button){
 
-function(button){
+button.addEventListener("click",function(){
 
-button.addEventListener(
-"click",
-function(){
-
-document.getElementById(
-"courtVerdict"
-).textContent=
+document.getElementById("courtVerdict").textContent=
 verdicts[
-Math.floor(
-Math.random()*verdicts.length
-)
+Math.floor(Math.random()*verdicts.length)
 ];
 
 increaseDork(2);
 addScore(5);
 
-document.getElementById(
-"certificate"
-).style.display="block";
+document.getElementById("certificate").style.display="block";
+});
+});
 
-}
-);
 
-}
-);
-
-/* =========================================
-INITIAL STATS
-========================================= */
+/* INITIAL STATS */
 
 updateStats();
 
-</script> </body> </html> ```
+</script>
+
+</body>
+</html>
